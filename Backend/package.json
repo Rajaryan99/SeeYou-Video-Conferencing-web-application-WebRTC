@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Video conferencing web Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rajaryan99/SeeYou-Video-Conferencing-web-application-WebRTC.git"
+  },
+  "author": "Raj Aryan singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rajaryan99/SeeYou-Video-Conferencing-web-application-WebRTC/issues"
+  },
+  "homepage": "https://github.com/Rajaryan99/SeeYou-Video-Conferencing-web-application-WebRTC#readme"
+}
