@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Video conferencing web Application",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/Rajaryan99/SeeYou-Video-Conferencing-web-application-WebRTC/issues"
   },
-  "homepage": "https://github.com/Rajaryan99/SeeYou-Video-Conferencing-web-application-WebRTC#readme"
+  "homepage": "https://github.com/Rajaryan99/SeeYou-Video-Conferencing-web-application-WebRTC#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "http-status": "^2.1.0",
+    "mongoose": "^9.0.0",
+    "socket.io": "^4.8.1"
+  }
 }
