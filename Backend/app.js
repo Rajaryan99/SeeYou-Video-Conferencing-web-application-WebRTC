@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import {createServer} from "node:http";
 import cors from 'cors';
 import { connectToSocket } from "./controllers/socletManager.js";
+import userRouter from './routes/usersRouters.js'
 
 
 
@@ -16,9 +17,11 @@ app.use(cors())
 app.use(express.urlencoded({limit:'40kb', extended:true}));
 app.use(express.json({limit: '40kb'}));
 
+app.use('/api/v1/users', userRouter);
+
 
 app.get('/', (req, res) => {
-    res.send('Hello Worold! This is SeeYou your online web conference site.')
+    res.send('Hello Worold! This is SeeYou your online web conferencing website.')
 })
 
 
