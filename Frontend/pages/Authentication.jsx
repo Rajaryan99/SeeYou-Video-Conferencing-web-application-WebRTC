@@ -54,9 +54,15 @@ export default function Authentication() {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
+            <div>
+                <Button variant=''>
+                    Sign In
+                </Button>
+                <Button>
+                    Sign Up
+                </Button>
+            </div>
+            
             <Box component="form"  noValidate  sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
