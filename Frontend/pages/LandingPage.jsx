@@ -25,7 +25,7 @@ export default function LandingPage() {
            <h1> <span style={{color: 'rgb(208, 2, 70)'}}>Connect</span> with your loved ones!!!</h1> 
            <p>Cover a distance by SeeYou ...</p>
            <div role='button' className='getStarted btn'>
-            <Link className='getStarted' to={'/home'}>Get Started</Link>
+            <Link className='getStarted' to={'/auth'}>Get Started</Link>
            </div>
           </div>
           <div className="rightSection">

@@ -78,3 +78,17 @@ nav .navHeader{
   height: 70vh;
   width: auto;
 }
+
+/* Authentication */
+
+.authPage{
+  background: url('/public/background.png');
+  justify-content: center;
+  align-items: center;
+   background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.authForm {
+  background-color: aquamarine;
+}
