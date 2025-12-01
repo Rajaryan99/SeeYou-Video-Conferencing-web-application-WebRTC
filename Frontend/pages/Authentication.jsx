@@ -1,6 +1,6 @@
 
 
-import  React from 'react';
+import  React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,6 +22,10 @@ const defaultTheme = createTheme();
 
 export default function Authentication() {
  
+    const [formState, setFormState] = useState();
+    const [name, setName] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -55,24 +59,34 @@ export default function Authentication() {
               <LockOutlinedIcon />
             </Avatar>
             <div>
-                <Button variant=''>
+                <Button variant={formState === 0 ? "contained" : ""} onClick={() => {setFormState(0)}} >
                     Sign In
                 </Button>
-                <Button>
+                <Button variant={formState === 1 ? "contained" : ""} onClick={() => {setFormState(1)}}>
                     Sign Up
                 </Button>
             </div>
             
             <Box component="form"  noValidate  sx={{ mt: 1 }}>
+                {formState === 1 ?  <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Full Name"
+                name="username"
+                onChange={(e) => setName(e.target.value)}
+              />: <></> }
+                
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
+                id="username"
+                label="username"
+                name="username"
+                onChange={(e) => setUsername(e.target.value)}
+
               />
               <TextField
                 margin="normal"
@@ -83,6 +97,8 @@ export default function Authentication() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
