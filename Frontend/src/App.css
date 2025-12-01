@@ -4,5 +4,31 @@
   background: url('/public/background.png');
   background-repeat: no-repeat;
   background-size: cover;
+  color: white;
 
+}
+
+.landingPageContainer nav {
+  padding-inline: 1.2rem;
+  padding-block: 1.8rem;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+nav .navHeader{
+  font-size: 30px;
+}
+
+.you {
+  color: rgb(208, 2, 70);
+}
+
+.landingPageContainer nav .navList{
+  display: flex;
+  gap: 1.6rem;
+}
+
+.landingPageContainer nav .navList p {
+  font-size: 20px;
 }
