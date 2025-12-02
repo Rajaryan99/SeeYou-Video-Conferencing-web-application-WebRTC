@@ -1,4 +1,4 @@
-import { Children, createContext, useContext, useState } from "react";
+import { children, createContext, useContext, useState } from "react";
 import axios from  'axios';
 import httpStatus from 'http-status'
 import { useNavigate } from "react-router-dom";
@@ -9,11 +9,11 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext({});
 
 const client = axios.create({
-    baseURL: 'http://localhost:5000/api/v1/users'
+    baseURL: "http://localhost:5000/api/v1/users"
     
 })
 
-export const AuthProvider = ({Children}) => {
+export const AuthProvider = ({children}) => {
     const authContext = useContext(AuthContext);
 
     const [userData, setUserData] = useState(authContext);
@@ -27,7 +27,7 @@ export const AuthProvider = ({Children}) => {
                 password: password
             })
 
-            if(request.status ===httpStatus.CREATED){
+            if(request.status === httpStatus.CREATED){
                 return request.data.message;
             }
             
@@ -36,7 +36,8 @@ export const AuthProvider = ({Children}) => {
         }
     }
 
-    const router = useNavigate();
+   
+
 
     const data = {
         userData, setUserData, handleRegister
@@ -44,7 +45,7 @@ export const AuthProvider = ({Children}) => {
 
     return (
         <AuthContext.Provider value={data}>
-            {Children}
+            {children}
         </AuthContext.Provider>
     )
 }
