@@ -1,5 +1,5 @@
 import { Children, createContext, useContext, useState } from "react";
-import axios, { HttpStatusCode } from  'axios';
+import axios from  'axios';
 import httpStatus from 'http-status'
 import { useNavigate } from "react-router-dom";
 
