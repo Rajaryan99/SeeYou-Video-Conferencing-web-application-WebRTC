@@ -26,6 +26,7 @@ export default function Authentication() {
     const [name, setName] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [message, setMessage] = useState();
 
   return (
     <ThemeProvider theme={defaultTheme}>
