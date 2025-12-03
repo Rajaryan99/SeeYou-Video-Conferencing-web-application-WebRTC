@@ -51,6 +51,8 @@ const login = async (req, res) => {
             await user.save();
              res.status(200).json({ message: "Login successful" });
 
+        } else {
+            return res.status(httpStatus.UNAUTHORIZED).json({message: "Invalid Username or password"})
         }
 
 
