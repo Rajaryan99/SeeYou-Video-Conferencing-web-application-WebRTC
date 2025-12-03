@@ -1,6 +1,6 @@
 
 
-import  React, { useState } from 'react';
+import  React, { useContext, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +14,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AuthContext } from '../contexts/AuthContext';
+import Snackbar from '@mui/material/Snackbar';
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -22,11 +24,38 @@ const defaultTheme = createTheme();
 
 export default function Authentication() {
  
-    const [formState, setFormState] = useState();
+    const [formState, setFormState] = useState(0);
+    const [error, setError] = useState();
     const [name, setName] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [message, setMessage] = useState();
+
+    const [open, setOpen] = useState(false);
+
+    const {handleRegister, handleLogin} = useContext(AuthContext)
+
+    let handleAuth = async () => {
+      try {
+
+        if(formState === 0){
+
+        }
+        if(formState === 1){
+            let result = await handleRegister(name, username, password);
+            console.log(result);
+            setMessage(result);
+            setOpen(true);
+            setError("")
+            setFormState(0)
+            setPassword("")
+        }
+        
+      } catch (error) {
+        let message = (error.response.data.message);
+        setError(message);
+      }
+    }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -101,23 +130,32 @@ export default function Authentication() {
                 onChange={(e) => setPassword(e.target.value)}
 
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
+              <p style={{color: "red"}}>{error}</p>
+              
               <Button
                 type="button"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={handleAuth}
               >
-                Sign In
+                {formState === 0 ? "Login" : "Register"}
               </Button>
               
             </Box>
           </Box>
         </Grid>
       </Grid>
+
+                  <Snackbar 
+
+                  open={open}
+                  autoHideDuration={4000}
+                  message={message}
+
+                  />
+
     </ThemeProvider>
   );
 }
