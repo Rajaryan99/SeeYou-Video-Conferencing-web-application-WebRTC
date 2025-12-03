@@ -40,10 +40,20 @@ export default function Authentication() {
 
         if(formState === 0){
 
+          let result = await handleLogin(username, password);
+          console.log(result);
+          setUsername("")
+          setMessage(result);
+          setError("")
+           setFormState(0)
+          setPassword("")
+          
+          
         }
         if(formState === 1){
             let result = await handleRegister(name, username, password);
             console.log(result);
+            setUsername("")
             setMessage(result);
             setOpen(true);
             setError("")
@@ -115,6 +125,7 @@ export default function Authentication() {
                 id="username"
                 label="username"
                 name="username"
+                value={username}
                 onChange={(e) => setUsername(e.target.value)}
 
               />
@@ -126,6 +137,7 @@ export default function Authentication() {
                 label="Password"
                 type="password"
                 id="password"
+                value={password}
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
 
