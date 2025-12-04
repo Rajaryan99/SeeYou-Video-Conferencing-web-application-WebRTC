@@ -1,6 +1,9 @@
-import React, { use, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 // import '../src/styles/VideoMeet'
-import '../src/App'
+import '../src/App';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
 
 const serverUrl = "http://localhost:5000";
 
@@ -48,21 +51,59 @@ export default function VideoMeet() {
 
     const [videos, setVideos] = useState([]);
 
-    if(isChrome() === false){
+    // if(isChrome() === false){
 
+    // }
+
+    const getPermissions = async () => {
+      try {
+
+        //video permission
+        const videoPermission = await navigator.mediaDevices.getUserMedia({video:true});
+
+        if(videoPermission){
+          setVideoAvailable(true);
+        } else {
+          setVideoAvailable(false);
+        }
+
+        //Auido permission
+        const audioPermission = await navigator.mediaDevices.getUserMedia({audio: true});
+
+        
+        if(audioPermission){
+          setAudioAvailable(true);
+        } else {
+          setAudioAvailable(false);
+        }
+
+      } catch (error) {
+        
+      }
     }
+
+
+
+    useEffect(() => {
+          getPermissions();
+    }, [])
 
   return (
     <div>
+
       
     {askUsername === true ? 
         <div>
 
-
-
+        <h2>Enter into Lobby</h2>
+        <TextField id="outlined-basic" label="Username" value={username} onChange={e => {setUsername(e.target.value)}} variant="outlined"  />
+        <Button variant="contained">Connect</Button>
         </div> : <></>
     }
 
+    <div>
+      <video ref={localVideoRef} autoPlay muted></video>
+    </div>
     </div>
   )
 }
