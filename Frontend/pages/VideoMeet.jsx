@@ -77,8 +77,25 @@ export default function VideoMeet() {
           setAudioAvailable(false);
         }
 
+        if(navigator.mediaDevices.getDisplayMedia){
+          setScreenAvailable(true);
+        }else {
+          setScreenAvailable(false)
+        }
+
+        if(videoAvailable || audioAvailable){
+          const userMediaStream   = await navigator.mediaDevices.getUserMedia({video: videoAvailable, audi: audioAvailable});
+
+          if(userMediaStream){
+            window.localStream = userMediaStream;
+            if(localVideoRef.current){
+              localVideoRef.current.srcObject = userMediaStream;
+            }
+          }
+        }
+
       } catch (error) {
-        
+        console.log("Permission Denied!!", error.message)
       }
     }
 
