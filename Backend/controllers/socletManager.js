@@ -1,7 +1,7 @@
-import { connections } from 'mongoose';
 import { Server } from 'socket.io';
 
-let connection = {};
+
+let connections = {};
 let messages = {};
 let timeOnline = {};
 
@@ -16,23 +16,26 @@ export const connectToSocket = (server) => {
         }
     });
 
-    io.on('connection', (socket) => {
+    io.on("connection", (socket) => {
+
+        console.log("someThing is Connected");
+
         socket.on("join-call", (path) => {
 
-            if (connections[path] === undefined) {
+            if (!connections[path]) {
                 connections[path] = []
             }
             connections[path].push(socket.id);
 
             timeOnline[socket.id] = new Date();
 
-            for (let a = 0; a < connections[path].length; i++) {
+            for (let a = 0; a < connections[path].length; a++) {
                 io.to(connections[path][a]).emit('user-join', socket.id, connections[path])
 
             }
 
             if (messages[path] !== undefined) {
-                for (let a = 0; a < messages[path].length; ++a) {
+                for (let a = 0; a < messages[path].length; a++) {
                     io.to(socket.id).emit('chat-message', messages[path][a]['data'],
                         messages[path][a]['sender'], messages[path][a]['socket-id-sender'])
                 }
@@ -78,7 +81,7 @@ export const connectToSocket = (server) => {
 
         socket.on("disconnect", () => {
 
-            var diffTime = Math.abs(timeOnline[socket.id] - new Data());
+            var diffTime = Math.abs(timeOnline[socket.id] - new Date());
             var key;
 
             for(const [k, v]  of JSON.parse(JSON.stringify(Object.entries(connections)))){
