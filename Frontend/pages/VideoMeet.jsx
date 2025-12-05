@@ -3,6 +3,9 @@ import React, { use, useEffect, useRef, useState } from 'react';
 import '../src/App';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { io } from "socket.io-client";
+
+
 
 
 const serverUrl = "http://localhost:5000";
@@ -27,7 +30,7 @@ export default function VideoMeet() {
 
     const [audioAvailable, setAudioAvailable]  = useState(true);
 
-    const [video, setVideo] = useState();
+    const [video, setVideo] = useState([]);
 
     const [audio, setAudio] = useState();
 
@@ -55,6 +58,10 @@ export default function VideoMeet() {
 
     // }
 
+    useEffect(() => {
+          getPermissions();
+    }, [])
+
     const getPermissions = async () => {
       try {
 
@@ -63,8 +70,11 @@ export default function VideoMeet() {
 
         if(videoPermission){
           setVideoAvailable(true);
+          console.log("video permission granted!")
         } else {
           setVideoAvailable(false);
+          console.log("Video permission denied")
+
         }
 
         //Auido permission
@@ -73,8 +83,11 @@ export default function VideoMeet() {
         
         if(audioPermission){
           setAudioAvailable(true);
+          console.log("Audio permission granted!!")
         } else {
           setAudioAvailable(false);
+          console.log("Audio permission denied")
+
         }
 
         if(navigator.mediaDevices.getDisplayMedia){
@@ -84,7 +97,7 @@ export default function VideoMeet() {
         }
 
         if(videoAvailable || audioAvailable){
-          const userMediaStream   = await navigator.mediaDevices.getUserMedia({video: videoAvailable, audi: audioAvailable});
+          const userMediaStream   = await navigator.mediaDevices.getUserMedia({video: videoAvailable, audio: audioAvailable});
 
           if(userMediaStream){
             window.localStream = userMediaStream;
@@ -100,10 +113,85 @@ export default function VideoMeet() {
     }
 
 
+     useEffect(() => {
+      if(video !== undefined && audio !== undefined){
+        getUserMedia();
+      }
+    }, [video, audio])
 
-    useEffect(() => {
-          getPermissions();
-    }, [])
+
+    
+
+    let getUserMediaSuccess = (stream) => {
+
+    }
+    const getUserMedia = () => {
+      if((video && videoAvailable) || (audio && audioAvailable)) {
+        navigator.mediaDevices.getUserMedia({video: video, audio: audio})
+        .then(getUserMediaSuccess) // todo
+        .then((stream) => { })
+        .catch((e) => {
+          console.log(e)
+        })
+      } else {
+        try {
+          let tracks = localVideoRef.current.srcObject.getTracks();
+          tracks.forEach(track => track.stop());
+        } catch (error) {
+          console.log(e);
+        }
+      }
+    }
+
+   let gotMessageFromServer = (fromId, message) => {
+
+   }
+   
+   let addMessage = () => {
+
+   }
+
+    let connectToSocketServer = () => {
+      socketRef.current = io.connect(serverUrl, {secure: false})
+
+      socketRef.current.on('signal', gotMessageFromServer);
+
+      socketRef.current.on('connect', () => {
+        socketRef.current.emit("join-call", window.location.href)
+
+        socketIdRef.current = socketRef.current.id;
+
+        socketRef.current.on("chat-message", addMessage)
+
+        socketRef.current.on('user-left', (id) => {
+          setVideo((video)=>video.filter((video) => video.socketId !== id))
+        })
+
+        socketRef.current.on("user-joined", (id, clients) => {
+          clients.forEach((socketListId) => {
+            connections[socketListId] = new  RTCPeerConnection(peerConfigConnectons)
+          })
+        })
+
+      })
+
+
+
+    }
+
+
+    let getMedia = () => {
+      setVideo(videoAvailable);
+      setAudio(audioAvailable);
+      connectToSocketServer();
+    }
+
+    let connect = () => {
+      setAskUsername(false);
+      getMedia();
+      
+    }
+
 
   return (
     <div>
@@ -113,8 +201,8 @@ export default function VideoMeet() {
         <div>
 
         <h2>Enter into Lobby</h2>
-        <TextField id="outlined-basic" label="Username" value={username} onChange={e => {setUsername(e.target.value)}} variant="outlined"  />
-        <Button variant="contained">Connect</Button>
+        <TextField id="outlined-basic" label="Username" value={username} onChange={e => setUsername(e.target.value)} variant="outlined"  />
+        <Button variant="contained" onClick={connect}>Connect</Button>
         </div> : <></>
     }
 
