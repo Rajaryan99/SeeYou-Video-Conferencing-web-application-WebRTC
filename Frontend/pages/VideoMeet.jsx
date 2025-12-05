@@ -169,8 +169,74 @@ export default function VideoMeet() {
 
         socketRef.current.on("user-joined", (id, clients) => {
           clients.forEach((socketListId) => {
+
+
             connections[socketListId] = new  RTCPeerConnection(peerConfigConnectons)
+
+
+            connections[socketListId].onicecandidate = (event) => {
+              if(event.candidate != null){
+                socketRef.current.emit("signal", socketListId, JSON.stringify({'ice' : event.candidate}))
+              }
+            }
+
+            connections[socketListId].onaddstream = (event) => {
+
+                let videoExists = videoRef.current.find(video => video.socketId === socketListId);
+
+                if(videoExists){
+                  setVideo(videos => {
+                    const updateVideos = videos.map(video => 
+                      video.socketId === socketListId ? { ...video, stream: event.stream} : video
+                    );
+                    videoRef.current = updateVideos;
+                    return updateVideos;
+                  })
+                } else {
+
+                  let newVideo = {
+                    socketId: socketListId,
+                    stream: event.stream,
+                    autoPlay: true,
+                    playinline: true
+                  }
+
+                  setVideos(videos => {
+                    const updateVideos = [ ...videos, newVideo];
+                    videoRef.current = updateVideos;
+                    return updateVideos;
+                  })
+                }
+            };
+
+            if(window.localStream !== undefined && window.localStream !== null){
+              connections[socketListId].addStream(window.localStream);
+            } else {
+              // let blackSilence
+            }
+
           })
+
+
+          if(id === socketIdRef.current) {
+            for(let id2 in connections){
+              if(id2 === socketIdRef.current) continue
+
+              try {
+                connections[id2].addStream(window.localStream)
+              } catch (error) { } 
+                
+                connections[id2].createOffer().then((description) => {
+                  connections[id2].setLocalDescription(description)
+                  .then(() => {
+                    socketRef.current.emit("signal", id2, JSON.stringify({"spd": connections[id2].localDescription})) //sdp = session description
+                  })
+                  .catch (e => console.log(e))
+                })
+              
+            }
+          }
+
         })
 
       })
