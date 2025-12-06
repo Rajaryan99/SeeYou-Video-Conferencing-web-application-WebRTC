@@ -373,7 +373,13 @@ export default function VideoMeet() {
             <video ref={localVideoRef} autoPlay muted></video>
           </div>
         </div> : <>
-              <video ref={localVideoRef}></video>
+              <video ref={localVideoRef} autoPlay muted></video>
+
+            {videos.map((video) => (
+              <div key={video.socketId}>
+                  <h2>{video.socketId}</h2>
+              </div>
+            ))}
         </>
 
       }
