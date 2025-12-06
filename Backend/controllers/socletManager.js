@@ -30,12 +30,12 @@ export const connectToSocket = (server) => {
             timeOnline[socket.id] = new Date();
 
             for (let a = 0; a < connections[path].length; a++) {
-                io.to(connections[path][a]).emit('user-join', socket.id, connections[path])
+                io.to(connections[path][a]).emit('user-joined', socket.id, connections[path])
 
             }
 
             if (messages[path] !== undefined) {
-                for (let a = 0; a < messages[path].length; a++) {
+                for (let a = 0; a < messages[path].length; ++a) {
                     io.to(socket.id).emit('chat-message', messages[path][a]['data'],
                         messages[path][a]['sender'], messages[path][a]['socket-id-sender'])
                 }
