@@ -13,9 +13,10 @@ import MicIcon from '@mui/icons-material/Mic';
 import MicOff from '@mui/icons-material/MicOff'
 import ScreenShareIcon from '@mui/icons-material/ScreenShare'
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
+import Badge from '@mui/material/Badge';
+import ChatIcon from '@mui/icons-material/Chat'
 
-// import VideocamIcon from '@mui/icons-material/Videocam'
-// import VideocamoffIcon from '@mui/icons-material/VideocamOff'
+
 
 
 
@@ -55,7 +56,7 @@ export default function VideoMeet() {
 
   const [message, setMessage] = useState("");
 
-  const [newMessages, setNewMessages] = useState(0);
+  const [newMessages, setNewMessages] = useState(4);
 
   const [askUsername, setAskUsername] = useState(true);
 
@@ -71,7 +72,7 @@ export default function VideoMeet() {
 
   useEffect(() => {
     getPermissions();
-  })
+  }, [])
 
   const getPermissions = async () => {
     try {
@@ -415,6 +416,15 @@ export default function VideoMeet() {
   }
 
 
+  let handleVideo = () => {
+        setVideo(!video);
+  }
+
+  const handleAudio = () => {
+        setAudio(!audio)
+  }
+
+
   let getMedia = () => {
     setVideo(videoAvailable);
     setAudio(audioAvailable);
@@ -447,13 +457,13 @@ export default function VideoMeet() {
 
 
               <div className="buttonContainer">
-                      <IconButton style={{color: "#fff"}}>
+                      <IconButton onClick={handleVideo} style={{color: "#fff"}}>
                         {(video === true) ? <VideocamIcon/> : <VideocamOffIcon/>}
                       </IconButton>
                       <IconButton style={{color: "red"}}>
                          <CallEnd/>
                       </IconButton>
-                      <IconButton style={{color: "#fff"}}>
+                      <IconButton onClick={handleAudio} style={{color: "#fff"}}>
                          {audio == true ? <MicIcon/> : <MicOff/>} 
                       </IconButton>
 
@@ -461,6 +471,12 @@ export default function VideoMeet() {
                       <IconButton style={{color: "#fff"}}>
                         {screen === true ? <ScreenShareIcon/> : <StopScreenShareIcon/> }
                       </IconButton> : <></>}
+
+                      <Badge badgeContent={newMessages} max={999} color='secondary'>
+                        <IconButton style={{color: "#fff"}}>
+                          <ChatIcon/>
+                        </IconButton>
+                      </Badge>
               </div>
 
               <video className='meetUserVideo' ref={localVideoRef} autoPlay muted></video>
