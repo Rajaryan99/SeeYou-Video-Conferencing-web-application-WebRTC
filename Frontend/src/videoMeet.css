@@ -20,3 +20,16 @@
 .conferenceView{
 
 }
+
+.buttonContainer{
+    position: absolute;
+    width: 100vw;
+    bottom: 0;
+    text-align: center;
+    
+}
+
+.buttonContainer svg {
+    font-size:3rem;
+    
+}

@@ -4,8 +4,18 @@ import '../src/App';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { io } from "socket.io-client";
-import '../src/videoMeet.css'
+import '../src/videoMeet.css';
+import IconButton from '@mui/material/IconButton';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import CallEnd from '@mui/icons-material/CallEnd';
+import MicIcon from '@mui/icons-material/Mic';
+import MicOff from '@mui/icons-material/MicOff'
+import ScreenShareIcon from '@mui/icons-material/ScreenShare'
+import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 
+// import VideocamIcon from '@mui/icons-material/Videocam'
+// import VideocamoffIcon from '@mui/icons-material/VideocamOff'
 
 
 
@@ -434,6 +444,25 @@ export default function VideoMeet() {
             <video ref={localVideoRef} autoPlay muted></video>
           </div>
         </div> : <div className='meetVideoContainer'>
+
+
+              <div className="buttonContainer">
+                      <IconButton style={{color: "#fff"}}>
+                        {(video === true) ? <VideocamIcon/> : <VideocamOffIcon/>}
+                      </IconButton>
+                      <IconButton style={{color: "red"}}>
+                         <CallEnd/>
+                      </IconButton>
+                      <IconButton style={{color: "#fff"}}>
+                         {audio == true ? <MicIcon/> : <MicOff/>} 
+                      </IconButton>
+
+                      {screenAvailable === true ? 
+                      <IconButton style={{color: "#fff"}}>
+                        {screen === true ? <ScreenShareIcon/> : <StopScreenShareIcon/> }
+                      </IconButton> : <></>}
+              </div>
+
               <video className='meetUserVideo' ref={localVideoRef} autoPlay muted></video>
 
             {videos.map((video) => (

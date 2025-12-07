@@ -14,7 +14,7 @@ export default function LandingPage() {
             <p>Join as Guest</p>
             <p>Register</p>
             <div role='button' className='btn'>
-              <p>Login</p>
+              <Link to={'/auth'}>Login</Link>
             </div>
           </div>
       </nav>
