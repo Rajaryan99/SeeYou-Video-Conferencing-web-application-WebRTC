@@ -4,6 +4,7 @@ import '../src/App';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { io } from "socket.io-client";
+import '../src/videoMeet.css'
 
 
 
@@ -432,11 +433,11 @@ export default function VideoMeet() {
           <div>
             <video ref={localVideoRef} autoPlay muted></video>
           </div>
-        </div> : <>
-              <video ref={localVideoRef} autoPlay muted></video>
+        </div> : <div className='meetVideoContainer'>
+              <video className='meetUserVideo' ref={localVideoRef} autoPlay muted></video>
 
             {videos.map((video) => (
-              <div key={video.socketId}>
+              <div className='conferenceView' key={video.socketId}>
                   <h2>{video.socketId}</h2>
                   <video
                    data-socket={video.socketId}
@@ -451,7 +452,7 @@ export default function VideoMeet() {
                   </video>
               </div>
             ))}
-        </>
+        </div>
 
       }
 
