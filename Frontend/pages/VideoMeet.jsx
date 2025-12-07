@@ -60,7 +60,7 @@ export default function VideoMeet() {
 
   useEffect(() => {
     getPermissions();
-  }, [])
+  })
 
   const getPermissions = async () => {
     try {
@@ -142,7 +142,7 @@ export default function VideoMeet() {
       connections[id].createOffer().then((description) => {
         connections[id].setLocalDescription(description)
           .then(() => {
-            socketIdRef.current.emit("signal", id, JSON.stringify({ sdp: connections[id].localDescription }))
+            socketRef.current.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
           })
           .catch(e => console.log(e))
 
@@ -170,7 +170,7 @@ export default function VideoMeet() {
         connections[id].createOffer().then((description) => {
           connections[id].setLocalDescription(description)
             .then(() => {
-              socketRef.current.emit("signal", id, JSON.stringify({ "sdp": connections[id].localDescription }))
+              socketRef.current.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
             }).catch(e => console.log(e))
         })
       }
@@ -221,21 +221,25 @@ export default function VideoMeet() {
     var signal = JSON.parse(message);
 
     if (fromId !== socketIdRef.current) {
-      if (signal.spd) {
-        connections[fromId].setRemoteDescription(new RTCSessionDescription(signal.spd)).then(() => {
-          if (signal.sdp.type === "offer") {
+      if (signal.sdp) {
+        connections[fromId].setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
+          if (signal.sdp.type === 'offer') {
 
 
             connections[fromId].createAnswer().then((description) => {
               connections[fromId].setLocalDescription(description).then(() => {
-                socketIdRef.current.emit("signal", fromId, JSON.stringify({ "sdp": connections[fromId].localDescription }))
+                socketRef.current.emit('signal', fromId, JSON.stringify({ 'sdp': connections[fromId].localDescription }))
               }).catch(e => console.log(e))
             }).catch(e => console.log(e))
           }
         }).catch(e => console.log(e))
       }
       if (signal.ice) { // ice Interactive Connectivity Establishment
-        connections[fromId].addIceCandidate(new RTCIceCandidate(signal.ice)).catch(e => console.log(e))
+        try{
+        connections[fromId].addIceCandidate(new RTCIceCandidate(signal.ice))
+        } catch(e) {
+          console.log(e)
+        }
       }
     }
   }
@@ -261,7 +265,7 @@ export default function VideoMeet() {
         setVideo((video) => video.filter((video) => video.socketId !== id))
       })
 
-      socketRef.current.on("user-joined", (id, clients) => {
+      socketRef.current.on("user-joined", async (id, clients) => {
         clients.forEach((socketListId) => {
 
 
@@ -270,7 +274,7 @@ export default function VideoMeet() {
 
           connections[socketListId].onicecandidate = (event) => {
             if (event.candidate != null) {
-              socketRef.current.emit("signal", socketListId, JSON.stringify({ 'ice': event.candidate }))
+              socketRef.current.emit('signal', socketListId, JSON.stringify({ 'ice': event.candidate }))
             }
           }
 
@@ -279,12 +283,12 @@ export default function VideoMeet() {
             let videoExists = videoRef.current.find(video => video.socketId === socketListId);
 
             if (videoExists) {
-              setVideo(videos => {
-                const updateVideos = videos.map(video =>
+              setVideos(videos => {
+                const updatedVideos = videos.map(video =>
                   video.socketId === socketListId ? { ...video, stream: event.stream } : video
                 );
-                videoRef.current = updateVideos;
-                return updateVideos;
+                videoRef.current = updatedVideos;
+                return updatedVideos;
               })
             } else {
 
@@ -296,9 +300,9 @@ export default function VideoMeet() {
               }
 
               setVideos(videos => {
-                const updateVideos = [...videos, newVideo];
-                videoRef.current = updateVideos;
-                return updateVideos;
+                const updatedVideos = [...videos, newVideo];
+                videoRef.current = updatedVideos;
+                return updatedVideos;
               })
             }
           };
@@ -377,7 +381,18 @@ export default function VideoMeet() {
 
             {videos.map((video) => (
               <div key={video.socketId}>
-                  <h2>{video.socketId}</h2>
+
+                  <video
+                   data-socket={video.socketId}
+                   ref={ref => {
+                    if(ref && video.stream){
+                      ref.srcObject = video.stream;
+                    }
+                   }}
+                   autoPlay
+                  >
+                   
+                  </video>
               </div>
             ))}
         </>
