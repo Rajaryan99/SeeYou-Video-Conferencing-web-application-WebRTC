@@ -15,10 +15,20 @@
     width: auto;
     right: 0;
     border-radius: 20px;
+    padding-right: 10px;
 }
 
 .conferenceView{
+    display: flex;
+    /* justify-content: center; */
+    padding: 10px;
+    gap: 10px;
+}
 
+.conferenceView  video {
+    width: 40vw;
+    min-width: 30vw;
+    border-radius: 10px;
 }
 
 .buttonContainer{

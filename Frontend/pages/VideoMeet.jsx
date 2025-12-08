@@ -481,9 +481,9 @@ export default function VideoMeet() {
 
               <video className='meetUserVideo' ref={localVideoRef} autoPlay muted></video>
 
+              <div className='conferenceView'>
             {videos.map((video) => (
-              <div className='conferenceView' key={video.socketId}>
-                  <h2>{video.socketId}</h2>
+              <div  key={video.socketId}>
                   <video
                    data-socket={video.socketId}
                    ref={ref => {
@@ -497,6 +497,7 @@ export default function VideoMeet() {
                   </video>
               </div>
             ))}
+        </div>
         </div>
 
       }
