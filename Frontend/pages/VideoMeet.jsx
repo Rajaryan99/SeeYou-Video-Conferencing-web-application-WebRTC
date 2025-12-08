@@ -15,6 +15,7 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare'
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import Badge from '@mui/material/Badge';
 import ChatIcon from '@mui/icons-material/Chat'
+import Send from '@mui/icons-material/Send';
 
 
 
@@ -48,7 +49,7 @@ export default function VideoMeet() {
 
   const [screen, setScreen] = useState();
 
-  const [showModel, setShowModel] = useState();
+  const [showModel, setShowModel] = useState(true);
 
   const [screenAvailable, setScreenAvailable] = useState();
 
@@ -428,6 +429,10 @@ export default function VideoMeet() {
     setScreen(!screen)
   }
 
+  const hnadleChat = () => {
+    setShowModel(!showModel)
+  }
+
 let getDislayMediaSuccess = (stream) => {
         try {
             window.localStream.getTracks().forEach(track => track.stop())
@@ -518,6 +523,18 @@ let getDislayMediaSuccess = (stream) => {
           </div>
         </div> : <div className='meetVideoContainer'>
 
+                {showModel ?   <div className="chatRoom">
+                  <div className="chatContainer">
+                        <h1 >Chat</h1>
+
+                        <div className='chattingArea'>
+                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                            <button onClick={sendMessage}><Send/></button>
+
+                        </div>
+                        </div>
+                    </div>: <></>}
+                   
 
               <div className="buttonContainer">
                       <IconButton onClick={handleVideo} style={{color: "#fff"}}>
@@ -536,7 +553,7 @@ let getDislayMediaSuccess = (stream) => {
                       </IconButton> : <></>}
 
                       <Badge badgeContent={newMessages} max={999} color='secondary'>
-                        <IconButton style={{color: "#fff"}}>
+                        <IconButton onClick={hnadleChat} style={{color: "#fff"}}>
                           <ChatIcon/>
                         </IconButton>
                       </Badge>

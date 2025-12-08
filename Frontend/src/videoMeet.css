@@ -13,9 +13,9 @@
     bottom: 10vh;
     height: 20vh;
     width: auto;
-    right: 0;
+    left: 0;
     border-radius: 20px;
-    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .conferenceView{
@@ -42,4 +42,33 @@
 .buttonContainer svg {
     font-size:3rem;
     
+}
+
+.chatRoom {
+    position: absolute;
+    right: 0;
+    width: 20vw;
+    height: 90vh;
+    background-color: #fff;
+    border-radius: 20px;
+    padding-inline: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.chatContainer {
+    position: relative;
+    height: 100%;
+    
+}
+
+.chattingArea {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    gap: 10px;
+}
+
+.chattingArea button {
+    width: 30px !important;
 }
