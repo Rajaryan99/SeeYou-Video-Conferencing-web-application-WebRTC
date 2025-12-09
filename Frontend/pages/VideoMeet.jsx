@@ -16,6 +16,8 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import Badge from '@mui/material/Badge';
 import ChatIcon from '@mui/icons-material/Chat'
 import Send from '@mui/icons-material/Send';
+import { fontWeight } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -70,6 +72,8 @@ export default function VideoMeet() {
   // if(isChrome() === false){
 
   // }
+
+  const routeTo = useNavigate()
 
   useEffect(() => {
     getPermissions();
@@ -266,7 +270,7 @@ export default function VideoMeet() {
     ]);
 
     if(socketIdSender !== socketIdRef.current){
-      setMessages((prevMessages) => prevMessages + 1)
+      setNewMessages((prevNewMessages) => prevNewMessages + 1)
     }
   }
 
@@ -389,7 +393,7 @@ export default function VideoMeet() {
           } else {
             // let blackSilence
 
-            let blackSilence = (...args) => new MediaStrame([black(...args), silence()])
+            let blackSilence = (...args) => new MediaStream([black(...args), silence()])
             window.localStream = blackSilence();
             connections[socketListId].addStream(window.localStream);
           }
@@ -439,6 +443,17 @@ export default function VideoMeet() {
 
   const hnadleChat = () => {
     setShowModel(!showModel)
+  }
+
+  const handleEndCall = () => {
+    try {
+      let tracks =  localVideoRef.current.srcObject.getTracks();
+      tracks.forEach(track => track.stop());
+    } catch (error) {
+      console.error(error)
+    }
+
+    routeTo("/home");
   }
 
   // const sendMessage = () => {
@@ -564,6 +579,19 @@ let getDislayMediaSuccess = (stream) => {
                   <div className="chatContainer">
                         <h1 >Chat</h1>
 
+                      <div className="chattingDisplay">
+
+
+                        {Array.isArray(messages) && messages.map((item, index) => {
+                          return (
+                            <div style={{marginBottom: "20px"}} key={index}>
+                                  <p style={{fontWeight: "bold"}}>{item.sender}</p>
+                                  <p>{item.data}</p>
+                            </div>
+                          )
+                        })}
+                      </div>
+
                         <div className='chattingArea'>
                           
                             <TextField value={message} onChange={(e) => setMessage(e.target.value)} id="outlined-basic" label="Outlined" variant="outlined" />
@@ -578,7 +606,7 @@ let getDislayMediaSuccess = (stream) => {
                       <IconButton onClick={handleVideo} style={{color: "#fff"}}>
                         {(video === true) ? <VideocamIcon/> : <VideocamOffIcon/>}
                       </IconButton>
-                      <IconButton style={{color: "red"}}>
+                      <IconButton onClick={handleEndCall} style={{color: "red"}}>
                          <CallEnd/>
                       </IconButton>
                       <IconButton onClick={handleAudio} style={{color: "#fff"}}>
