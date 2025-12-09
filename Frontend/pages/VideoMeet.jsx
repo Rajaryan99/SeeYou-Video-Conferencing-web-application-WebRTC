@@ -258,8 +258,16 @@ export default function VideoMeet() {
   }
 
   //todo addmessage
-  let addMessage = () => {
+  let addMessage = (data, sender, socketIdSender) => {
 
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {sender: sender, data: data}
+    ]);
+
+    if(socketIdSender !== socketIdRef.current){
+      setMessages((prevMessages) => prevMessages + 1)
+    }
   }
 
   //create peer connection
@@ -328,7 +336,7 @@ export default function VideoMeet() {
 
       socketIdRef.current = socketRef.current.id;
 
-      socketRef.current.on("chat-message", addMessage)
+      socketRef.current.on('chat-message', addMessage)
 
       socketRef.current.on('user-left', (id) => {
         setVideos((videos) => videos.filter((video) => video.socketId !== id))
@@ -433,6 +441,35 @@ export default function VideoMeet() {
     setShowModel(!showModel)
   }
 
+  // const sendMessage = () => {
+  //   console.log("sendMessage Clicked. socketRef:", socketRef.current)
+
+  //   try {
+  //     if(!socketRef.current || !socketRef.current.connected){
+  //       console.warn('socket not connected yet. Connect first or wait for connection.');
+  //       setMessages(prev => [...prev, {sender: username || 'me', data: message}])
+  //       setMessage('');
+  //       return;
+  //     }
+      
+  //      // Emit a single object (safer than multiple args)
+  //     const payload = { data: message, sender: username || 'Anonymous' };
+  //     console.log('emitting chat-message', payload);
+  //     socketRef.current.emit('chat-message', payload);
+
+  //     // Optimistically add message to UI
+  //     setMessages(prev => [...prev, { sender: payload.sender, data: payload.data }]);
+  //     setMessage('')
+  //   } catch (err) {
+  //     console.error('sendMessage error', err);
+  //   }
+  // }
+
+  const sendMessage = ()  => {
+    socketRef.current.emit("chat-message", message, username);
+    setMessage("");
+  }
+
 let getDislayMediaSuccess = (stream) => {
         try {
             window.localStream.getTracks().forEach(track => track.stop())
@@ -528,7 +565,8 @@ let getDislayMediaSuccess = (stream) => {
                         <h1 >Chat</h1>
 
                         <div className='chattingArea'>
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                          
+                            <TextField value={message} onChange={(e) => setMessage(e.target.value)} id="outlined-basic" label="Outlined" variant="outlined" />
                             <button onClick={sendMessage}><Send/></button>
 
                         </div>
