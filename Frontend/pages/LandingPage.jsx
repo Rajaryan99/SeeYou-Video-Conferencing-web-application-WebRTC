@@ -12,9 +12,11 @@ export default function LandingPage() {
           </div>
           <div className="navList">
             <p>Join as Guest</p>
-            <p>Register</p>
+              <div role='button' className='register-btn'>
+                <Link to={'/auth'} style={{color: 'rgb(208, 2, 70)'}}>Register</Link>
+              </div>
             <div role='button' className='btn'>
-              <Link to={'/auth'}>Login</Link>
+              <Link to={'/auth'} style={{color: '#fff'}}>Login</Link>
             </div>
           </div>
       </nav>
