@@ -8,7 +8,7 @@ export default function LandingPage() {
       {/* Navbar */}
       <nav>
           <div className="navHeader">
-            <h2>See<span className='you'>You </span>'__'</h2>
+            <h2>See<span className='you'>You </span></h2>
           </div>
           <div className="navList">
             <div role='button' className='register-btn'>
