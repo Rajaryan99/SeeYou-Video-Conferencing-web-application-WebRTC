@@ -99,6 +99,7 @@ nav .navHeader{
   justify-content: space-between;
   padding-right: 20px;
   text-align: center;
+  padding-inline: 20px;
 }
 
 .btn {
@@ -127,5 +128,29 @@ nav .navHeader{
   font-weight: bold;
 }
 
+.leftPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
+
+.meetContainer {
+  display: flex;
+  padding-inline: 20px;
+  height: 80vh;
+  gap: 10vw;
+  justify-content: center;
+}
+
+.rightPanel{
+   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.rightPanel  img{
+   height: 60vh;
+}

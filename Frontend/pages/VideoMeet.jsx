@@ -51,7 +51,7 @@ export default function VideoMeet() {
 
   const [screen, setScreen] = useState();
 
-  const [showModel, setShowModel] = useState(true);
+  const [showModel, setShowModel] = useState(false);
 
   const [screenAvailable, setScreenAvailable] = useState();
 
