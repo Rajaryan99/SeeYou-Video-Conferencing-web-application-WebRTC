@@ -33,7 +33,11 @@ function Home() {
 
                 <div className="navbarLeft" style={{ display: 'flex', alignItems: "center" }}>
     
-                    <IconButton>
+                    <IconButton onClick={
+                        () => {
+                            navigator('/history')
+                        }
+                    }>
                         <RestoreIcon style={{color:"#fff"}} />
                     </IconButton>
                     <p style={{ marginRight: "20px"}}>History</p>
