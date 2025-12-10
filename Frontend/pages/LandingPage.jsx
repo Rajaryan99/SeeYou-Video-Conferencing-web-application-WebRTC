@@ -11,7 +11,9 @@ export default function LandingPage() {
             <h2>See<span className='you'>You </span>'__'</h2>
           </div>
           <div className="navList">
-            <p>Join as Guest</p>
+            <div role='button' className='register-btn'>
+                <Link to={'/home'} style={{color: 'rgb(208, 2, 70)'}}>Join as guest</Link>
+              </div>
               <div role='button' className='register-btn'>
                 <Link to={'/auth'} style={{color: 'rgb(208, 2, 70)'}}>Register</Link>
               </div>
