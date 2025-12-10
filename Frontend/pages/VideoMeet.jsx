@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const serverUrl = "http://localhost:5000";
+const serverUrl = `${process.env.PROD}`;
 
 var connections = {};
 
