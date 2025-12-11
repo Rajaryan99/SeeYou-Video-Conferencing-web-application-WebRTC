@@ -14,7 +14,7 @@ export default function LandingPage() {
           <div className="navList">
             <div role='button' className='register-btn'>
               <p onClick={() => {
-                router('/aljk23')
+                router('/connect')
               }} style={{color: 'rgb(208, 2, 70)'}}>Join as Guest</p>
               </div>
               <div role='button' className='register-btn'>
@@ -32,7 +32,7 @@ export default function LandingPage() {
            <h1> <span style={{color: 'rgb(208, 2, 70)'}}>Connect</span> with your loved ones!!!</h1> 
            <p>Cover a distance by SeeYou ...</p>
            <div role='button' className='getStarted btn'>
-            <Link className='getStarted' to={'/auth'}>Get Started</Link>
+            <Link className='getStarted' to={'/home'}>Get Started</Link>
            </div>
           </div>
           <div className="rightSection">
