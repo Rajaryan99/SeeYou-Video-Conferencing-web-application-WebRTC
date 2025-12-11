@@ -2,7 +2,6 @@ import {  createContext, useContext, useState } from "react";
 import axios from  'axios';
 import httpStatus from 'http-status'
 import { useNavigate } from "react-router-dom";
-// import { addToHistory } from "../../Backend/controllers/user.controller";
 
 
 
