@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import '../src/styles/VideoMeet'
 import '../src/App';
 import TextField from '@mui/material/TextField';
@@ -16,7 +16,6 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import Badge from '@mui/material/Badge';
 import ChatIcon from '@mui/icons-material/Chat'
 import Send from '@mui/icons-material/Send';
-import { fontWeight } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import server from '../src/enviroment';
 
@@ -30,8 +29,8 @@ const serverUrl = server;
 var connections = {};
 
 const peerConfigConnectons = {
-  "iceServer": [
-    { "urls": "stun:stun.l.google.com:19302" }
+  iceServers: [
+    { urls: "stun:stun.l.google.com:19302" }
   ]
 }
 
@@ -147,7 +146,7 @@ export default function VideoMeet() {
       window.localStream.getTracks().forEach(track => track.stop())
 
     } catch (error) {
-      console.log(e)
+      console.log(error)
     }
 
     window.localStream = stream;
@@ -231,7 +230,7 @@ export default function VideoMeet() {
         let tracks = localVideoRef.current.srcObject.getTracks();
         tracks.forEach(track => track.stop());
       } catch (error) {
-        console.log(e);
+        console.log(error);
       }
     }
   }
@@ -276,58 +275,7 @@ export default function VideoMeet() {
     }
   }
 
-  //create peer connection
-//   const createPeerConnection = (peerId) => {
-//   // create and configure PC
-//   const pc = new RTCPeerConnection({
-//     iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
-//   });
-
-//   // ensure pendingCandidates bucket exists
-//   pendingCandidates[peerId] = pendingCandidates[peerId] || [];
-
-//   // ICE candidates from this peer -> send to remote via socket
-//   pc.onicecandidate = (event) => {
-//     if (event.candidate) {
-//       if (socketRef?.current) {
-//         socketRef.current.emit("signal", peerId, JSON.stringify({ ice: event.candidate }));
-//       }
-//     }
-//   };
-
-//   // modern track handler: remote track arrives
-//   pc.ontrack = (event) => {
-//     const remoteStream = (event.streams && event.streams[0]) || null;
-//     if (!remoteStream) return;
-
-//     // update or add video in state
-//     const videoObj = { socketId: peerId, stream: remoteStream, autoPlay: true, playsInline: true };
-
-//     setVideos(prev => {
-//       const arr = Array.isArray(prev) ? prev : [];
-//       const exists = arr.find(v => v.socketId === peerId);
-//       let updated;
-//       if (exists) {
-//         updated = arr.map(v => v.socketId === peerId ? { ...v, stream: remoteStream } : v);
-//       } else {
-//         updated = [...arr, videoObj];
-//       }
-//       videoRef.current = updated;
-//       return updated;
-//     });
-//   };
-
-//   // handle connection state changes (optional logging)
-//   pc.onconnectionstatechange = () => {
-//     // debugging help
-//     // console.log("PC state for", peerId, pc.connectionState, pc.iceConnectionState);
-//   };
-
-//   // save
-//   connections[peerId] = pc;
-//   return pc;
-// };
-
+ 
 
 
 
@@ -414,7 +362,7 @@ export default function VideoMeet() {
             connections[id2].createOffer().then((description) => {
               connections[id2].setLocalDescription(description)
                 .then(() => {
-                  socketRef.current.emit("signal", id2, JSON.stringify({ "spd": connections[id2].localDescription })) //sdp = session description
+                  socketRef.current.emit("signal", id2, JSON.stringify({ "sdp": connections[id2].localDescription })) //sdp = session description
                 })
                 .catch(e => console.log(e))
             })
