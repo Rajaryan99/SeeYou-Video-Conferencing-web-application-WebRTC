@@ -18,12 +18,13 @@ import ChatIcon from '@mui/icons-material/Chat'
 import Send from '@mui/icons-material/Send';
 import { fontWeight } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
+import server from '../src/enviroment';
 
 
 
 
 
-const serverUrl = `${process.env.URL}`;
+const serverUrl = server;
 // const serverUrl = "http://localhost:5000";
 
 var connections = {};
