@@ -1,6 +1,6 @@
 
 
-import  React, { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,49 +19,49 @@ import Snackbar from '@mui/material/Snackbar';
 const defaultTheme = createTheme();
 
 export default function Authentication() {
- 
-    const [formState, setFormState] = useState(0);
-    const [error, setError] = useState();
-    const [name, setName] = useState();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [message, setMessage] = useState();
 
-    const [open, setOpen] = useState(false);
+  const [formState, setFormState] = useState(0);
+  const [error, setError] = useState();
+  const [name, setName] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [message, setMessage] = useState();
 
-    const {handleRegister, handleLogin} = useContext(AuthContext)
+  const [open, setOpen] = useState(false);
 
-    let handleAuth = async () => {
-      try {
+  const { handleRegister, handleLogin } = useContext(AuthContext)
 
-        if(formState === 0){
+  let handleAuth = async () => {
+    try {
 
-          let result = await handleLogin(username, password);
-          console.log(result);
-          setUsername("")
-          setMessage(result);
-          setError("")
-           setFormState(0)
-          setPassword("")
-          
-          
-        }
-        if(formState === 1){
-            let result = await handleRegister(name, username, password);
-            console.log(result);
-            setUsername("")
-            setMessage(result);
-            setOpen(true);
-            setError("")
-            setFormState(0)
-            setPassword("")
-        }
-        
-      } catch (error) {
-        let message = (error.response.data.message);
-        setError(message);
+      if (formState === 0) {
+
+        let result = await handleLogin(username, password);
+        console.log(result);
+        setUsername("")
+        setMessage(result);
+        setError("")
+        setFormState(0)
+        setPassword("")
+
+
       }
+      if (formState === 1) {
+        let result = await handleRegister(name, username, password);
+        console.log(result);
+        setUsername("")
+        setMessage(result);
+        setOpen(true);
+        setError("")
+        setFormState(0)
+        setPassword("")
+      }
+
+    } catch (error) {
+      let message = error.response?.data?.message || error.message || "An error occurred";
+      setError(message);
     }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -81,8 +81,8 @@ export default function Authentication() {
             backgroundPosition: 'center',
           }}
         />
-        <Grid   item xs={12}  sm={8} md={5} component={Paper} elevation={6} square>
-          <Box  
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
             sx={{
               my: 8,
               mx: 4,
@@ -95,16 +95,16 @@ export default function Authentication() {
               <LockOutlinedIcon />
             </Avatar>
             <div>
-                <Button variant={formState === 0 ? "contained" : ""} onClick={() => {setFormState(0)}} >
-                    Sign In
-                </Button>
-                <Button variant={formState === 1 ? "contained" : ""} onClick={() => {setFormState(1)}}>
-                    Sign Up
-                </Button>
+              <Button variant={formState === 0 ? "contained" : ""} onClick={() => { setFormState(0) }} >
+                Sign In
+              </Button>
+              <Button variant={formState === 1 ? "contained" : ""} onClick={() => { setFormState(1) }}>
+                Sign Up
+              </Button>
             </div>
-            
-            <Box component="form"  noValidate  sx={{ mt: 1 }}>
-                {formState === 1 ?  <TextField
+
+            <Box component="form" noValidate sx={{ mt: 1 }}>
+              {formState === 1 ? <TextField
                 margin="normal"
                 required
                 fullWidth
@@ -112,8 +112,8 @@ export default function Authentication() {
                 label="Full Name"
                 name="username"
                 onChange={(e) => setName(e.target.value)}
-              />: <></> }
-                
+              /> : <></>}
+
               <TextField
                 margin="normal"
                 required
@@ -139,8 +139,8 @@ export default function Authentication() {
 
               />
 
-              <p style={{color: "red"}}>{error}</p>
-              
+              <p style={{ color: "red" }}>{error}</p>
+
               <Button
                 type="button"
                 fullWidth
@@ -150,19 +150,19 @@ export default function Authentication() {
               >
                 {formState === 0 ? "Login" : "Register"}
               </Button>
-              
+
             </Box>
           </Box>
         </Grid>
       </Grid>
 
-                  <Snackbar 
+      <Snackbar
 
-                  open={open}
-                  autoHideDuration={4000}
-                  message={message}
+        open={open}
+        autoHideDuration={4000}
+        message={message}
 
-                  />
+      />
 
     </ThemeProvider>
   );

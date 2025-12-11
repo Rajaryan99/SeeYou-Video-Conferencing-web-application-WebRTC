@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import LandingPage from '../pages/LandingPage';
 import Authentication from '../pages/Authentication';
@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <div>
-        <HashRouter>
+        <BrowserRouter>
 
           <AuthProvider>
 
@@ -26,7 +26,7 @@ function App() {
               <Route path='/:url' element={<VideoMeet />} />
             </Routes>
           </AuthProvider>
-        </HashRouter>
+        </BrowserRouter>
       </div>
     </>
   )

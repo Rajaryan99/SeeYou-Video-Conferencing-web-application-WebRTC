@@ -11,7 +11,7 @@ export const AuthContext = createContext({});
 
 const client = axios.create({
     // baseURL: "http://localhost:5000/api/v1/users"
-    baseURL: `${server}api/v1/users`
+    baseURL: `${server}/api/v1/users`
     
 })
 

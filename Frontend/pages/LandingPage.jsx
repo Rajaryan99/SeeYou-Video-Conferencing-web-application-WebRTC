@@ -1,7 +1,8 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Route, Router, useNavigate} from 'react-router-dom'
 
 export default function LandingPage() {
+  const router = useNavigate();
   return (
     <div className='landingPageContainer'>
 
@@ -12,7 +13,9 @@ export default function LandingPage() {
           </div>
           <div className="navList">
             <div role='button' className='register-btn'>
-                <Link to={'/home'} style={{color: 'rgb(208, 2, 70)'}}>Join the Meeting</Link>
+              <p onClick={() => {
+                router('/aljk23')
+              }} style={{color: 'rgb(208, 2, 70)'}}>Join as Guest</p>
               </div>
               <div role='button' className='register-btn'>
                 <Link to={'/auth'} style={{color: 'rgb(208, 2, 70)'}}>Register</Link>
